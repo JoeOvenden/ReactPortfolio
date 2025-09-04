@@ -1,24 +1,49 @@
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import Image from 'next/image';
+import { ReactNode, AnchorHTMLAttributes } from 'react';
+
+
+interface NavbarLinkProps extends LinkProps { 
+  className?: string;
+  children: ReactNode;
+}
+
+function NavbarLink({ className = "", children, ...props}: NavbarLinkProps) {
+  return (
+    <Link
+      {...props}
+      className={`hover:text-black transition duration-150 font-semibold ${className}`}
+    >
+      {children}
+    </Link>
+  )
+}
 
 export default function Nav() {
-    const username = "Anonymous";
+  const username = "Anonymous";
   return (
-    <div className="flex flex-row items-center bg-accent rounded-lg">
-        <Image
-        className=""
+    <div className='relative flex flex-row items-center justify-between bg-accent p-4'>
+      <div className='flex flex-row items-center gap-4' id="left">
+        <Link href="/runner">
+          <Image
+            className=""
             src="/runner-log.png"
-            width={100}
-            height={76}
+            width={80}
+            height={61}
             alt="Man running logo"
           />
+        </Link>
+        <NavbarLink href="/runner" className='text-xl'>Runner</NavbarLink>
+      </div>
+      <div className="absolute left-1/2 transform -translate-x-1/2">
         <div className="flex flex-row gap-8">
-            <Link href="/">{username}</Link>
-            <Link href="/">Login</Link>
-            <Link href="/">Create event</Link>
-            <Link href="/">Users</Link>
-            <Link href="/">Events</Link>
+            <NavbarLink href="/runner">{username}</NavbarLink>
+            <NavbarLink href="/runner">Login</NavbarLink>
+            <NavbarLink href="/runner">Create event</NavbarLink>
+            <NavbarLink href="/runner">Users</NavbarLink>
+            <NavbarLink href="/runner">Events</NavbarLink>
         </div>
+      </div>
     </div>
   );
 }
