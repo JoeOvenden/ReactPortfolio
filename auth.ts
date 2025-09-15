@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { authConfig } from './auth.config';
+import { authConfig } from './app/auth/config';
 import { z } from 'zod';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
@@ -18,7 +18,7 @@ async function getUser(email: string): Promise<User | undefined> {
   }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { auth, signIn, signOut, handlers: { GET, POST } } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
@@ -30,9 +30,7 @@ export const { auth, signIn, signOut } = NextAuth({
             password: z.string()
           })
           .safeParse(credentials);
- 
-        console.log(credentials);
-        console.log(parsedCredentials);
+          
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);

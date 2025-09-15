@@ -17,9 +17,7 @@ export default function RootLayout({
       <body
         className={`antialiased text-blue-500`}
       >
-        <SessionProvider>
-          {children}
-        </SessionProvider>
+        {children}
       </body>
     </html>
   );

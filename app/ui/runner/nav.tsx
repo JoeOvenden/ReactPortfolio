@@ -1,6 +1,9 @@
 import Link, { LinkProps } from 'next/link';
 import Image from 'next/image';
 import { ReactNode, AnchorHTMLAttributes } from 'react';
+import { getServerSession } from "next-auth";
+import { authConfig } from '@/app/auth/config';
+import { auth } from '@/auth';
 
 
 interface NavbarLinkProps extends LinkProps { 
@@ -19,7 +22,8 @@ function NavbarLink({ className = "", children, ...props}: NavbarLinkProps) {
   )
 }
 
-export default function Nav() {
+export default async function Nav() {
+  const session = await auth();
   const username = "Anonymous";
   return (
     <div className='relative flex flex-row items-center justify-between bg-accent p-4'>
@@ -37,7 +41,7 @@ export default function Nav() {
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <div className="flex flex-row gap-8">
-            <NavbarLink href="/runner">{username}</NavbarLink>
+            <NavbarLink href="/runner">{session.user.name}</NavbarLink>
             <NavbarLink href="/runner/login">Login</NavbarLink>
             <NavbarLink href="/runner/create_event">Create event</NavbarLink>
             <NavbarLink href="/runner/users">Users</NavbarLink>

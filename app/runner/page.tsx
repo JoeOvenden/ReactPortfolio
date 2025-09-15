@@ -6,6 +6,7 @@ import { Lusitana } from 'next/font/google';
 import Image from 'next/image';
 import Section from '../ui/runner/mainsection';
 import MainSection from '../ui/runner/mainsection';
+import Test from '../ui/runner/test';
 
 /*
 Add some white space to the left and right, so put big margins on either side? 

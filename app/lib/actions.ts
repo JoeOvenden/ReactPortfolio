@@ -7,8 +7,6 @@ export async function authenticate(
   prevState: string | undefined,
   formData: FormData,
 ) {
-  debugger;
-  console.log(formData);
   try {
     await signIn('credentials', formData);
   } catch (error) {
