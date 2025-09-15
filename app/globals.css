@@ -16,11 +16,16 @@
     --background: #555555;
     --foreground: #ededed;
     --background-accent: #94949450;
+    --background-accent2: rgb(78, 78, 78);
   }
 }
 
 .bg-accent {
   background-color: var(--background-accent);
+}
+
+.bg-accent2 {
+  background-color: var(--background-accent2);
 }
 
 body {

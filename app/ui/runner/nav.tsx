@@ -27,7 +27,7 @@ export default function Nav() {
         <Link href="/runner">
           <Image
             className=""
-            src="/runner-log.png"
+            src="/runner-logo.png"
             width={80}
             height={61}
             alt="Man running logo"
@@ -38,10 +38,10 @@ export default function Nav() {
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <div className="flex flex-row gap-8">
             <NavbarLink href="/runner">{username}</NavbarLink>
-            <NavbarLink href="/runner">Login</NavbarLink>
-            <NavbarLink href="/runner">Create event</NavbarLink>
-            <NavbarLink href="/runner">Users</NavbarLink>
-            <NavbarLink href="/runner">Events</NavbarLink>
+            <NavbarLink href="/runner/login">Login</NavbarLink>
+            <NavbarLink href="/runner/create_event">Create event</NavbarLink>
+            <NavbarLink href="/runner/users">Users</NavbarLink>
+            <NavbarLink href="/runner/events">Events</NavbarLink>
         </div>
       </div>
     </div>

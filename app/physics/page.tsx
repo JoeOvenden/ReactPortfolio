@@ -14,13 +14,8 @@ Have a look at facebook/youtube/reddit see waht they do
 
 export default function Page() {
   return (
-    <main className='grid p-10 grid-cols-3 gap-20'>
-        <MainSection className='col-span-2'>
-          <p>Test</p>
-        </MainSection>
-        <MainSection className='col-span-1'>
-          Test
-        </MainSection>
+    <main>
+        <h1>PHYSICS</h1>
     </main>
   );
 }

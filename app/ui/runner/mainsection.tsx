@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
+import Section from "../section";
 
 export default function MainSection({ className = "", children } : {className?: string, children: React.ReactNode }) {
   return (
-    <div className={`bg-black ${className}`}>
+    <Section className={`${className}`}>
         {children}
-    </div>
+    </Section>
   );
 }
