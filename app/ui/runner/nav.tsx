@@ -41,7 +41,7 @@ export default async function Nav() {
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <div className="flex flex-row gap-8">
-            <NavbarLink href="/runner">{session.user.name}</NavbarLink>
+            <NavbarLink href={`/runner/profile/${session?.user?.name}`}>{session?.user?.name}</NavbarLink>
             <NavbarLink href="/runner/login">Login</NavbarLink>
             <NavbarLink href="/runner/create_event">Create event</NavbarLink>
             <NavbarLink href="/runner/users">Users</NavbarLink>

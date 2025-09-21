@@ -13,6 +13,10 @@ export const authConfig = {
         return false; // Redirect unauthenticated users to login page
       } 
       return true;
+    },
+    session({ session, token, user }) {
+      session.user.id = token.sub ?? "";
+      return session;
     }
   },
   session: { strategy: "jwt" },

@@ -25,7 +25,6 @@ export default function LoginForm() {
     } else {
       console.log("Logged in successfully!");
     }
-    console.log(result);
   }
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/runner';
@@ -33,7 +32,6 @@ export default function LoginForm() {
   const urlPath = usePathname();
   const { data: session, status } = useSession();
 
-  console.log(session, status);
   return (
     <form action={formAction} className="flex">
       <div className="">
