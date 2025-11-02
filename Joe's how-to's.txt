@@ -1,1 +1,1 @@
-npx kanel run -> for compiling db types
+pnpm kanel run -> for compiling db types
