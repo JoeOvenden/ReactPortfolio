@@ -1,0 +1,1 @@
+npx kanel run -> for compiling db types
