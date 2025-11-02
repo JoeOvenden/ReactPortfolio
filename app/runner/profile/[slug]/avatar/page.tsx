@@ -1,7 +1,7 @@
 import { Avatar } from "@/app/ui/avatar";
 import Collapsible from "@/app/ui/collapsible";
 import MainSection, { CollapsibleMainSection } from "@/app/ui/runner/mainsection";
-import { CollapsibleSection } from "@/app/ui/section";
+import Section, { CollapsibleSection } from "@/app/ui/section";
 
 export default function Page() {
     
