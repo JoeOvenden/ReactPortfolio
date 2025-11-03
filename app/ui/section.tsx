@@ -1,13 +1,14 @@
 import React, { MouseEventHandler } from "react";
 import Collapsible from "./collapsible";
 
-export default function Section({ children, className, onClick }: {
+export default function Section({ children, className, onClick, colorTheme = "bg-accent" }: {
         children: React.ReactNode,  
         className?: string, 
-        onClick?: MouseEventHandler<HTMLElement>}) {
+        onClick?: MouseEventHandler<HTMLElement>,
+        colorTheme?: "bg-accent" | "bg-accent2"}) {
     return (
         <section 
-            className={`bg-accent rounded-xl p-4 ${className ?? ""}`}
+            className={`${colorTheme} rounded-xl p-4 ${className ?? ""}`}
             onClick={onClick}>
             {children}
         </section>

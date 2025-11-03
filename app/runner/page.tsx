@@ -7,11 +7,11 @@ Have a look at facebook/youtube/reddit see waht they do
 export default function Page() {
   return (
     <main className='grid p-10 grid-cols-3 gap-20'>
-        <Section className='col-span-2'>
-          <p>Test</p>
+        <Section className='col-span-2' colorTheme="bg-accent2">
+          <p>Test1</p>
         </Section>
-        <Section className='col-span-1'>
-          Test
+        <Section className='col-span-1' colorTheme="bg-accent2">
+          Test2
         </Section>
     </main>
   );

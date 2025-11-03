@@ -1,11 +1,12 @@
 import Collapsible from "../collapsible";
 
-export default function MainSection({ className = "", children } : {className?: string, children: React.ReactNode }) {
+export default function MainSection({ className = "", children, gridCols = 12 } : {
+  className?: string, 
+  children: React.ReactNode,
+  gridCols?: number }) {
   return (
-    <div className="grid grid-cols-12 p-16">
-      <section className='col-start-3 col-span-8'>
-        {children}
-      </section>
+    <div className={`${className}`}>
+      {children}
     </div>
   );
 }
