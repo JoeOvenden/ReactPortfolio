@@ -8,7 +8,8 @@ import { auth } from "@/auth";
 export interface AvatarProps {
     src?: string,
     alt?: string,
-    size: "small" | "medium" | "large"
+    size: "small" | "medium" | "large",
+    content: React.ReactNode
 }
 
 export async function Avatar({ props } : { props: AvatarProps }) {
@@ -36,11 +37,7 @@ export async function Avatar({ props } : { props: AvatarProps }) {
                         />
                     }
                 </Tooltip>
-                <Icon 
-                    size={1} 
-                    path={mdiPencil} 
-                    className={`absolute top-6 right-6 opacity-0 ${transition} group-hover:opacity-100`}
-                />
+                {props.content}
             </div>
         </a>
     )

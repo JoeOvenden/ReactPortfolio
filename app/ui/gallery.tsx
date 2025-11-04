@@ -3,12 +3,13 @@
 import Image from "next/image"
 import Section from "./section"
 
-export default function Gallery({files, folder} : {
+export default function Gallery({files, folder, className = ""} : {
     files: string[],
-    folder: string
+    folder: string,
+    className?: string
 }) {
     return (
-        <Section>
+        <Section className={`flex flex-wrap gap-8 ${className}`}>
             {files.map(file => (
                 <Image 
                     alt={file}
