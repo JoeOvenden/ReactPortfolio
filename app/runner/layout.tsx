@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <SessionProvider>
       <div className="flex flex-col">
         <Nav />
-        <div className='m-12 bg-accent rounded-sm p-4'>
+        <div className='m-12 bg-accent rounded p-4'>
           <MainSection className='container max-h-full'>{children}</MainSection>
         </div>
       </div>

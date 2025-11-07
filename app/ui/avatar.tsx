@@ -18,7 +18,7 @@ const defaultIfEmpty = (value : string | undefined, defaultValue: string) => {
     return value == "" || value == undefined ? defaultValue : value;
 }
 
-export function Avatar({ color = "#FFFF00", eyes, mouth, link, size = "medium"} : {
+export function Avatar({ color, eyes, mouth, link, size = "medium"} : {
     color?: string,
     eyes?: string,
     mouth?: string,
@@ -35,6 +35,7 @@ export function Avatar({ color = "#FFFF00", eyes, mouth, link, size = "medium"} 
 
     eyes = defaultIfEmpty(eyes, "smooth_big.svg");
     mouth = defaultIfEmpty(mouth, "smooth_D.svg");
+    color = defaultIfEmpty(color, "#FFFF00");
     
     let dynamicClasses = "";
     if (link) dynamicClasses += " hover:cursor-pointer";

@@ -1,8 +1,10 @@
 "use client";
 
 import { Avatar } from "@/app/ui/avatar";
+import Button from "@/app/ui/button";
 import Gallery from "@/app/ui/gallery";
 import Section from "@/app/ui/section";
+import Icon from "@mdi/react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -10,12 +12,13 @@ export default function AvatarBuilder({ eyes, mouths} : {
     eyes: string[],
     mouths: string[]
 }) {
-    const galleryClasses = "flex flex-wrap gap-8 w-[50%] overflow-y-scroll h-[75vh]";
-    const componentClasses = "cursor-pointer";
-    const [userEyes, setEyes] = useState("");
-    const [userMouth, setMouth] = useState("");
+    const galleryClasses = "flex flex-wrap gap-8 overflow-y-scroll max-h-[70vh]";
+    const componentClasses = "cursor-pointer transition duration-300 hover:scale-90";
+    const [avatarEyes, setEyes] = useState("");
+    const [avatarMouth, setMouth] = useState("");
+    const [avatarColour, setColour] = useState("");
     return (
-        <div className="flex flex-row gap-4 items-center justify-center">
+        <div className="grid grid-cols-3 gap-4 container">
             <Section className={galleryClasses}>
                 {eyes.map(file => (
                     <Image 
@@ -40,7 +43,16 @@ export default function AvatarBuilder({ eyes, mouths} : {
                     />
                 ))}
             </Section>
-            <Avatar eyes={userEyes} mouth={userMouth} size="large" />
+            <Section className="flex flex-col gap-10 items-center justify-center">
+                <Avatar eyes={avatarEyes} mouth={avatarMouth} color={avatarColour} size="large" />
+                <div className="flex flex-col gap-1">
+                    <div className="flex gap-4">
+                        <label>Colour:</label>
+                        <input type="color" onChange={(e) => setColour(e.target.value)}/>
+                    </div>
+                    <Button>Save</Button>
+                </div>
+            </Section>
         </div>
     )
 }
