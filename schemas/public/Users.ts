@@ -21,6 +21,8 @@ export default interface Users {
   date_of_birth: Date | null;
 
   bio: string;
+
+  is_admin: boolean;
 }
 
 /** Represents the initializer for the table public.users */
@@ -43,6 +45,9 @@ export interface UsersInitializer {
 
   /** Default value: ''::character varying */
   bio?: string;
+
+  /** Default value: false */
+  is_admin?: boolean;
 }
 
 /** Represents the mutator for the table public.users */
@@ -62,4 +67,6 @@ export interface UsersMutator {
   date_of_birth?: Date | null;
 
   bio?: string;
+
+  is_admin?: boolean;
 }

@@ -3,6 +3,7 @@ import type { NextAuthConfig } from 'next-auth';
 export const authConfig = {
   pages: {
     signIn: '/runner/login',
+    signOut: '/runner/logout'
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {

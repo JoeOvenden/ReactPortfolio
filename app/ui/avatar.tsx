@@ -1,22 +1,14 @@
 "use client";
 
-import Icon from "@mdi/react";
 import Image from "next/image";
-import { mdiAccount, mdiPencil } from '@mdi/js';
-import Tooltip from "./tooltip";
-import { request } from "http";
-import { auth } from "@/auth";
-
-// export interface AvatarProps {
-//     src?: string,
-//     alt?: string,
-//     size: "small" | "medium" | "large",
-//     content: React.ReactNode
-// }
 
 const defaultIfEmpty = (value : string | undefined, defaultValue: string) => {
     return value == "" || value == undefined ? defaultValue : value;
 }
+
+export const defaultAvatarEyes  = "smooth_big.svg";
+export const defaultAvatarMouth = "smooth_D.svg";
+export const defaultAvatarColour = "#FFFF00";
 
 export function Avatar({ color, eyes, mouth, link, size = "medium"} : {
     color?: string,
@@ -33,9 +25,9 @@ export function Avatar({ color, eyes, mouth, link, size = "medium"} : {
     const sizeClass = sizeClasses[size];
     const componentSize =  parseInt(sizeClass.split(" ")[0].split("-")[1]) * 2.2;
 
-    eyes = defaultIfEmpty(eyes, "smooth_big.svg");
-    mouth = defaultIfEmpty(mouth, "smooth_D.svg");
-    color = defaultIfEmpty(color, "#FFFF00");
+    eyes = defaultIfEmpty(eyes, defaultAvatarEyes);
+    mouth = defaultIfEmpty(mouth, defaultAvatarMouth);
+    color = defaultIfEmpty(color, defaultAvatarColour);
     
     let dynamicClasses = "";
     if (link) dynamicClasses += " hover:cursor-pointer";

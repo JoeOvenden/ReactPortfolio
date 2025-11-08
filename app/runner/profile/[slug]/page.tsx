@@ -1,5 +1,5 @@
 import { getUserByName } from '@/app/lib/users';
-import { AvatarExtended, AvatarExtendedProps } from '@/app/ui/avatar';
+import { Avatar } from '@/app/ui/avatar';
 import { EditableTextarea } from '@/app/ui/forms';
 import Section from '@/app/ui/section';
 import { mdiPencil } from '@mdi/js';
@@ -27,16 +27,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           "No such profile"
       );
   }
-  const avatarExtendedProps : AvatarExtendedProps = {
-      src: "",
-      alt: profile.name,
-      size: "medium",
-      content: (Anonymous()),
-      username: profile.name
-  }
   return (
       <Section className='flex flex-row gap-8'>
-          <AvatarExtended props={avatarExtendedProps}></AvatarExtended>
+          <Avatar link={`/runner/profile/${profile.name}/avatar`}/>
           <EditableTextarea label='Bio'>
             {`Bio: ${profile.bio}`}
           </EditableTextarea>

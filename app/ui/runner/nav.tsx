@@ -1,9 +1,10 @@
 import Link, { LinkProps } from 'next/link';
 import Image from 'next/image';
-import { ReactNode, AnchorHTMLAttributes } from 'react';
-import { getServerSession } from "next-auth";
-import { authConfig } from '@/app/auth/config';
-import { auth } from '@/auth';
+import { MouseEventHandler, ReactNode } from 'react';
+import { User } from '@/app/lib/definitions/User';
+import Icon from '@mdi/react';
+import { mdiPower } from '@mdi/js';
+import { signOut } from '@/auth';
 
 
 interface NavbarLinkProps extends LinkProps { 
@@ -11,20 +12,46 @@ interface NavbarLinkProps extends LinkProps {
   children: ReactNode;
 }
 
+const navbarItemClasses = "hover:text-black transition duration-150 font-semibold cursor-pointer";
+
+function NavbarItem({ className = "", children, onclick } : {
+  className?: string,
+  children: ReactNode,
+  onclick: MouseEventHandler<HTMLDivElement>
+}) {
+  return <div onClick={onclick} className={`${navbarItemClasses} cursor-pointer ${className}`}>{children}</div>
+}
+
 function NavbarLink({ className = "", children, ...props}: NavbarLinkProps) {
   return (
     <Link
       {...props}
-      className={`hover:text-black transition duration-150 font-semibold ${className}`}
+      className={`${navbarItemClasses} ${className}`}
     >
       {children}
     </Link>
   )
 }
 
-export default async function Nav() {
-  const session = await auth();
-  const username = "Anonymous";
+function LogoutButton() {
+  return (
+    <form 
+      action={async () => {
+        'use server';
+        console.log("TEST");
+        await signOut({redirectTo: '/runner' });
+      }}
+      className={`${navbarItemClasses}`}
+    >
+      <button><Icon path={mdiPower} className='w-10 h-10'></Icon></button>
+    </form>
+  )
+}
+
+export default async function Nav({ user } : {
+  user: User | null | undefined
+}) {
+  const username = user == null ? "Anonymous" : user.name;
   return (
     <div className='relative flex flex-row items-center justify-between bg-accent p-4'>
       <div className='flex flex-row items-center gap-4' id="left">
@@ -41,12 +68,16 @@ export default async function Nav() {
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <div className="flex flex-row gap-8">
-            <NavbarLink href={`/runner/profile/${session?.user?.name}`}>{session?.user?.name}</NavbarLink>
+            <NavbarLink href={user == null ? '' : `/runner/profile/${username}`}>{username}</NavbarLink>
             <NavbarLink href="/runner/login">Login</NavbarLink>
             <NavbarLink href="/runner/create_event">Create event</NavbarLink>
             <NavbarLink href="/runner/users">Users</NavbarLink>
             <NavbarLink href="/runner/events">Events</NavbarLink>
+            {user?.is_admin ? <NavbarLink href="/runner/admin">Admin</NavbarLink> : ""}
         </div>
+      </div>
+      <div className='mr-10'>
+        {user == null ? "" : <LogoutButton />}
       </div>
     </div>
   );

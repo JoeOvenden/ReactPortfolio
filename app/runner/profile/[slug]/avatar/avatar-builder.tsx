@@ -1,22 +1,33 @@
 "use client";
 
-import { Avatar } from "@/app/ui/avatar";
+import { Avatar, defaultAvatarColour, defaultAvatarEyes, defaultAvatarMouth } from "@/app/ui/avatar";
 import Button from "@/app/ui/button";
-import Gallery from "@/app/ui/gallery";
+import AccessDenied from "@/app/ui/runner/access-denied";
 import Section from "@/app/ui/section";
-import Icon from "@mdi/react";
+import { Session } from "next-auth";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
-export default function AvatarBuilder({ eyes, mouths} : {
+export default function AvatarBuilder({ eyes, mouths, session } : {
     eyes: string[],
-    mouths: string[]
+    mouths: string[],
+    session: Session | null
 }) {
+    const username = useParams().slug;
+    const loggedInUser = session?.user?.name;
+    if (loggedInUser !== username) {
+        return <AccessDenied />
+    }
+    
     const galleryClasses = "flex flex-wrap gap-8 overflow-y-scroll max-h-[70vh]";
     const componentClasses = "cursor-pointer transition duration-300 hover:scale-90";
-    const [avatarEyes, setEyes] = useState("");
-    const [avatarMouth, setMouth] = useState("");
-    const [avatarColour, setColour] = useState("");
+    const [avatarEyes, setEyes] = useState(defaultAvatarEyes);
+    const [avatarMouth, setMouth] = useState(defaultAvatarMouth);
+    const [avatarColour, setColour] = useState(defaultAvatarColour);
+    const saveAvatar = () => {
+        console.log(avatarEyes, avatarMouth, avatarColour);
+    };
     return (
         <div className="grid grid-cols-3 gap-4 container">
             <Section className={galleryClasses}>
@@ -50,7 +61,7 @@ export default function AvatarBuilder({ eyes, mouths} : {
                         <label>Colour:</label>
                         <input type="color" onChange={(e) => setColour(e.target.value)}/>
                     </div>
-                    <Button>Save</Button>
+                    <Button onclick={saveAvatar}>Save</Button>
                 </div>
             </Section>
         </div>
