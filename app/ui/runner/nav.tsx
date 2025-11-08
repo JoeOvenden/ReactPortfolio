@@ -38,12 +38,11 @@ function LogoutButton() {
     <form 
       action={async () => {
         'use server';
-        console.log("TEST");
         await signOut({redirectTo: '/runner' });
       }}
       className={`${navbarItemClasses}`}
     >
-      <button><Icon path={mdiPower} className='w-10 h-10'></Icon></button>
+      <button className='cursor-pointer'><Icon path={mdiPower} className='w-10 h-10'></Icon></button>
     </form>
   )
 }
@@ -68,8 +67,7 @@ export default async function Nav({ user } : {
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <div className="flex flex-row gap-8">
-            <NavbarLink href={user == null ? '' : `/runner/profile/${username}`}>{username}</NavbarLink>
-            <NavbarLink href="/runner/login">Login</NavbarLink>
+            {user == null ? "" : <NavbarLink href={`/runner/profile/${user?.name}`}>{user?.name}</NavbarLink>}
             <NavbarLink href="/runner/create_event">Create event</NavbarLink>
             <NavbarLink href="/runner/users">Users</NavbarLink>
             <NavbarLink href="/runner/events">Events</NavbarLink>
@@ -77,7 +75,7 @@ export default async function Nav({ user } : {
         </div>
       </div>
       <div className='mr-10'>
-        {user == null ? "" : <LogoutButton />}
+        {user == null ? <NavbarLink href="/runner/login">Login</NavbarLink>: <LogoutButton />}
       </div>
     </div>
   );

@@ -1,9 +1,13 @@
 "use client";
 
+import { useUser } from "@/app/context/UserContext";
+import { User } from "@/app/lib/definitions/User";
+import { saveAvatar } from "@/app/lib/users";
 import { Avatar, defaultAvatarColour, defaultAvatarEyes, defaultAvatarMouth } from "@/app/ui/avatar";
 import Button from "@/app/ui/button";
 import AccessDenied from "@/app/ui/runner/access-denied";
 import Section from "@/app/ui/section";
+import ServerActionButton from "@/app/ui/server-action-button";
 import { Session } from "next-auth";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -15,19 +19,16 @@ export default function AvatarBuilder({ eyes, mouths, session } : {
     session: Session | null
 }) {
     const username = useParams().slug;
-    const loggedInUser = session?.user?.name;
-    if (loggedInUser !== username) {
+    const user = useUser() as User;
+    if (user.name !== username) {
         return <AccessDenied />
     }
-    
+
     const galleryClasses = "flex flex-wrap gap-8 overflow-y-scroll max-h-[70vh]";
     const componentClasses = "cursor-pointer transition duration-300 hover:scale-90";
     const [avatarEyes, setEyes] = useState(defaultAvatarEyes);
     const [avatarMouth, setMouth] = useState(defaultAvatarMouth);
-    const [avatarColour, setColour] = useState(defaultAvatarColour);
-    const saveAvatar = () => {
-        console.log(avatarEyes, avatarMouth, avatarColour);
-    };
+    const [avatarColour, setColour] = useState("#" + (user.avatar_colour ?? defaultAvatarColour));
     return (
         <div className="grid grid-cols-3 gap-4 container">
             <Section className={galleryClasses}>
@@ -61,7 +62,13 @@ export default function AvatarBuilder({ eyes, mouths, session } : {
                         <label>Colour:</label>
                         <input type="color" onChange={(e) => setColour(e.target.value)}/>
                     </div>
-                    <Button onclick={saveAvatar}>Save</Button>
+                    <Button onclick={() => saveAvatar(
+                                {
+                                    eyesFilename: avatarEyes, 
+                                    mouthFilename: avatarMouth, 
+                                    color: avatarColour
+                                })
+                    }>Save</Button>
                 </div>
             </Section>
         </div>

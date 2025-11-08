@@ -8,7 +8,7 @@ const defaultIfEmpty = (value : string | undefined, defaultValue: string) => {
 
 export const defaultAvatarEyes  = "smooth_big.svg";
 export const defaultAvatarMouth = "smooth_D.svg";
-export const defaultAvatarColour = "#FFFF00";
+export const defaultAvatarColour = "FFFF00";
 
 export function Avatar({ color, eyes, mouth, link, size = "medium"} : {
     color?: string,
