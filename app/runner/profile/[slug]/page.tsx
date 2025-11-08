@@ -1,3 +1,4 @@
+import { User } from '@/app/lib/definitions/User';
 import { getUserByName } from '@/app/lib/users';
 import { Avatar } from '@/app/ui/avatar';
 import { EditableTextarea } from '@/app/ui/forms';
@@ -26,10 +27,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       return (
           "No such profile"
       );
-  }
+  }  
+  
   return (
       <Section className='flex flex-row gap-8'>
-          <Avatar link={`/runner/profile/${profile.name}/avatar`}/>
+          <Avatar user={profile} link={`/runner/profile/${profile.name}/avatar`}/>
           <EditableTextarea label='Bio'>
             {`Bio: ${profile.bio}`}
           </EditableTextarea>

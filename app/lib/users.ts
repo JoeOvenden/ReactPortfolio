@@ -2,7 +2,10 @@
 
 import { User } from './definitions/User';
 import { sql } from './base';
-import { GetLoggedInUser, ValidateAdminUser, ValidateLoggedInUser } from './admin';
+import { ValidateLoggedInUser } from './admin';
+import AvatarComponentType from '@/schemas/public/AvatarComponentType';
+import AvatarComponents, { AvatarComponentsId } from '@/schemas/public/AvatarComponents';
+import { AvatarMappings } from '../context/UserContext';
 
 export async function getUserByEmail(email: string): Promise<User | undefined> {
     try {
@@ -24,20 +27,30 @@ export async function getUserByName(name: string): Promise<User | undefined> {
     }
 }
 
-export async function saveAvatar({ eyesFilename, mouthFilename, color} : {
-    eyesFilename: string,
-    mouthFilename: string,
+export async function getAvatarComponentsInfo() {
+    const array = (await sql<AvatarComponents[]>`SELECT * FROM avatar_components;`) as AvatarComponents[];
+    const mappings: AvatarMappings = {};
+    array.forEach(x => {
+        mappings[x.id] = {
+            filename: x.filename,
+            type: x.type
+        }
+    })
+    return { array, mappings };
+}
+
+export async function saveAvatar({ eyesId, mouthId, color} : {
+    eyesId: AvatarComponentsId,
+    mouthId: AvatarComponentsId,
     color: string
 }) {
     const user = await ValidateLoggedInUser();
     
     color = color.replaceAll(/[^0-9A-Fa-f]/g, "");
     await sql`
-    UPDATE users 
+    UPDATE users
        SET avatar_colour = ${color},
-           avatar_eyes = avatar_components.id
-      FROM avatar_components
-     WHERE users.id=${user.id}
-      AND avatar_components.filename=${eyesFilename};`;
-    console.log(eyesFilename, mouthFilename, color);
+           avatar_eyes = ${eyesId},
+           avatar_mouth = ${mouthId}
+     WHERE id=${user.id};`;
 }

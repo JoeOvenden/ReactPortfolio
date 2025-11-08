@@ -26,11 +26,11 @@ export default interface Users {
 
   is_admin: boolean;
 
-  avatar_eyes: AvatarComponentsId | null;
+  avatar_eyes: AvatarComponentsId;
 
-  avatar_mouth: AvatarComponentsId | null;
+  avatar_mouth: AvatarComponentsId;
 
-  avatar_colour: string | null;
+  avatar_colour: string;
 }
 
 /** Represents the initializer for the table public.users */
@@ -57,11 +57,14 @@ export interface UsersInitializer {
   /** Default value: false */
   is_admin?: boolean;
 
-  avatar_eyes?: AvatarComponentsId | null;
+  /** Default value: 4 */
+  avatar_eyes?: AvatarComponentsId;
 
-  avatar_mouth?: AvatarComponentsId | null;
+  /** Default value: 30 */
+  avatar_mouth?: AvatarComponentsId;
 
-  avatar_colour?: string | null;
+  /** Default value: 'FFFF00'::character varying */
+  avatar_colour?: string;
 }
 
 /** Represents the mutator for the table public.users */
@@ -84,9 +87,9 @@ export interface UsersMutator {
 
   is_admin?: boolean;
 
-  avatar_eyes?: AvatarComponentsId | null;
+  avatar_eyes?: AvatarComponentsId;
 
-  avatar_mouth?: AvatarComponentsId | null;
+  avatar_mouth?: AvatarComponentsId;
 
-  avatar_colour?: string | null;
+  avatar_colour?: string;
 }

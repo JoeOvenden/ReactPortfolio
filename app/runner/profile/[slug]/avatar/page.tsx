@@ -11,5 +11,5 @@ export default async function Page() {
     const mouths = fs.readdirSync(mouthsDir);
     const session = await auth();
 
-    return <AvatarBuilder eyes={eyes} mouths={mouths} session={session}/>;
+    return <AvatarBuilder/>;
 }
