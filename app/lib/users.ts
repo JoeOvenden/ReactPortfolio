@@ -1,9 +1,8 @@
 'use server';
 
-import { User } from './definitions/User';
+import { User, UserBasicDTO, UserBasicFields } from './definitions/User';
 import { sql } from './base';
 import { ValidateLoggedInUser } from './admin';
-import AvatarComponentType from '@/schemas/public/AvatarComponentType';
 import AvatarComponents, { AvatarComponentsId } from '@/schemas/public/AvatarComponents';
 import { AvatarMappings } from '../context/UserContext';
 
@@ -21,6 +20,16 @@ export async function getUserByName(name: string): Promise<User | undefined> {
     try {
         const users = await sql<User[]>`SELECT * FROM users WHERE name=${name};`;
         return users[0];
+    } catch (error) {
+        console.error('Failed to fetch user:', error);
+        throw new Error('Failed to fetch user.');
+    }
+}
+
+export async function getUsers(): Promise<UserBasicDTO[]> {
+    try {        
+        const users = await sql<UserBasicDTO[]>`SELECT ${sql(UserBasicFields)} FROM users LIMIT 100;`;
+        return users;
     } catch (error) {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');

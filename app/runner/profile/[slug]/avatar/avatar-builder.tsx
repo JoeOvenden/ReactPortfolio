@@ -1,9 +1,9 @@
 "use client";
 
-import { useAvatarComponentArray, useAvatarMappings, useUser } from "@/app/context/UserContext";
+import { useAvatarComponentArray, useUser } from "@/app/context/UserContext";
 import { User } from "@/app/lib/definitions/User";
 import { saveAvatar } from "@/app/lib/users";
-import { Avatar, defaultAvatarColour, defaultAvatarEyesId, defaultAvatarMouthId } from "@/app/ui/avatar";
+import { Avatar } from "@/app/ui/avatar";
 import Button from "@/app/ui/button";
 import AccessDenied from "@/app/ui/runner/access-denied";
 import Section from "@/app/ui/section";
@@ -27,7 +27,7 @@ export default function AvatarBuilder() {
     const componentClasses = "cursor-pointer transition duration-300 hover:scale-90";
     const [avatarEyes, setEyes] = useState(user.avatar_eyes);
     const [avatarMouth, setMouth] = useState(user.avatar_mouth);
-    const [avatarColour, setColour] = useState(user.avatar_colour ?? defaultAvatarColour);
+    const [avatarColour, setColour] = useState(user.avatar_colour);
     
     return (
         <div className="grid grid-cols-3 gap-4 container">
@@ -56,11 +56,11 @@ export default function AvatarBuilder() {
                 ))}
             </Section>
             <Section className="flex flex-col gap-10 items-center justify-center">
-                <Avatar user={user} eyeOverride={avatarEyes} mouthOverride={avatarMouth} colourOverride={avatarColour} size="large" />
+                <Avatar eyesId={avatarEyes} mouthId={avatarMouth} colour={avatarColour} size="large" />
                 <div className="flex flex-col gap-1">
                     <div className="flex gap-4">
                         <label>Colour:</label>
-                        <input type="color" onChange={(e) => setColour(e.target.value)}/>
+                        <input type="color" value={"#" + avatarColour} onChange={(e) => setColour(e.target.value)}/>
                     </div>
                     <Button onclick={() => saveAvatar(
                         {

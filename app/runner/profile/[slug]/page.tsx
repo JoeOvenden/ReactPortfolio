@@ -1,6 +1,6 @@
 import { User } from '@/app/lib/definitions/User';
 import { getUserByName } from '@/app/lib/users';
-import { Avatar } from '@/app/ui/avatar';
+import { Avatar, UserCard } from '@/app/ui/avatar';
 import { EditableTextarea } from '@/app/ui/forms';
 import Section from '@/app/ui/section';
 import { mdiPencil } from '@mdi/js';
@@ -31,7 +31,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   
   return (
       <Section className='flex flex-row gap-8'>
-          <Avatar user={profile} link={`/runner/profile/${profile.name}/avatar`}/>
+          <UserCard user={profile} link={`/runner/profile/${profile.name}/avatar`}/>
           <EditableTextarea label='Bio'>
             {`Bio: ${profile.bio}`}
           </EditableTextarea>

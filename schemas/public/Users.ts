@@ -33,6 +33,8 @@ export default interface Users {
   avatar_colour: string;
 }
 
+
+
 /** Represents the initializer for the table public.users */
 export interface UsersInitializer {
   /** Default value: gen_random_uuid() */

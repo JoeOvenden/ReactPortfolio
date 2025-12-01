@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useAvatarMappings } from "../context/UserContext";
 import { AvatarComponentsId } from "@/schemas/public/AvatarComponents";
-import { User } from "../lib/definitions/User";
+import { User, UserBasicDTO } from "../lib/definitions/User";
 
 const defaultIfEmpty = (value : string | undefined, defaultValue: string) => {
     return value == "" || value == undefined ? defaultValue : value;
@@ -18,14 +18,28 @@ function ensureSvg (filename: string) {
     return filename;
 }
 
-export function Avatar({ user, eyeOverride, mouthOverride, colourOverride, link, size = "medium"} : {
-    user: User,
-    eyeOverride?: AvatarComponentsId,
-    mouthOverride?: AvatarComponentsId,
-    colourOverride?: string,
+export function UserCard({ user, link, size = "medium"} : {
+    user: User | UserBasicDTO,
     link?: string,
     size?: "small" | "medium" | "large"
 }) {
+    return <Avatar
+                eyesId={user.avatar_eyes}
+                mouthId={user.avatar_mouth}
+                colour={user.avatar_colour}
+                link={link}
+                size={size} 
+            />
+}
+
+export function Avatar({ eyesId, mouthId, colour, link, size = "medium"} : {
+    eyesId: AvatarComponentsId,
+    mouthId: AvatarComponentsId,
+    colour: string,
+    link?: string,
+    size?: "small" | "medium" | "large"
+}) {
+    colour = colour.replace("#", "");
     const sizeClasses = {
         "small": "w-40 h-40",
         "medium": "w-60 h-60",
@@ -41,16 +55,16 @@ export function Avatar({ user, eyeOverride, mouthOverride, colourOverride, link,
     return (
         <a href={link}>
             <div className={`${dynamicClasses} ${sizeClass} flex flex-col relative rounded-full border-2 border-(--color1) group`}
-                style={{backgroundColor: "#" + (colourOverride ?? user.avatar_colour)}}>
+                style={{backgroundColor: "#" + (colour)}}>
                 <Image 
-                    src={`/avatars/components/eyes/${avatarMappings[eyeOverride ?? user.avatar_eyes].filename}.svg`} 
+                    src={`/avatars/components/eyes/${avatarMappings[eyesId].filename}.svg`} 
                     alt="eyes"
                     width={componentSize}
                     height={componentSize}
                     className="absolute left-[50%] translate-x-[-50%] top-[30%] translate-y-[-50%]"
                 />
                 <Image 
-                    src={`/avatars/components/mouths/${avatarMappings[mouthOverride ?? user.avatar_mouth].filename}.svg`} 
+                    src={`/avatars/components/mouths/${avatarMappings[mouthId].filename}.svg`} 
                     alt="mouth"
                     width={componentSize}
                     height={componentSize}
