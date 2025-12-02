@@ -4,6 +4,7 @@ import Section from "@/app/ui/section";
 
 export default async function Page() {
     const users = await getUsers();
+    console.log(users);
     return (
         <Section>
             <UserList users={users} />

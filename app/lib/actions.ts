@@ -2,6 +2,9 @@
  
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { sql } from './base';
+import { getUserByEmail } from './users';
+import { User, UserBasicDTO } from './definitions/User';
  
 export async function authenticate(
   prevState: string | undefined,
@@ -19,5 +22,17 @@ export async function authenticate(
       }
     }
     throw error;
+  }
+}
+
+export async function register(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  console.log(formData);
+  try {
+
+  } catch (error) {
+    return "There was an error.";
   }
 }

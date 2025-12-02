@@ -8,7 +8,7 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnRunner = nextUrl.pathname.startsWith('/runner');
+      const isOnRunner = nextUrl.pathname.startsWith('/runner') && !nextUrl.pathname.startsWith('/runner/register');
       if (isOnRunner) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page

@@ -51,6 +51,8 @@ export default async function Nav({ user } : {
   user: User | null | undefined
 }) {
   const username = user == null ? "Anonymous" : user.name;
+  const navbarLinkParentClasses = "flex flex-row gap-8";
+
   return (
     <div className='relative flex flex-row items-center justify-between bg-accent p-4'>
       <div className='flex flex-row items-center gap-4' id="left">
@@ -66,7 +68,7 @@ export default async function Nav({ user } : {
         <NavbarLink href="/runner" className='text-xl'>Runner</NavbarLink>
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
-        <div className="flex flex-row gap-8">
+        <div className={`${navbarLinkParentClasses}`}>
             {user == null ? "" : <NavbarLink href={`/runner/profile/${user?.name}`}>{user?.name}</NavbarLink>}
             <NavbarLink href="/runner/create_event">Create event</NavbarLink>
             <NavbarLink href="/runner/users">Users</NavbarLink>
@@ -74,9 +76,16 @@ export default async function Nav({ user } : {
             {user?.is_admin ? <NavbarLink href="/runner/admin">Admin</NavbarLink> : ""}
         </div>
       </div>
-      <div className='mr-10'>
-        {user == null ? <NavbarLink href="/runner/login">Login</NavbarLink>: <LogoutButton />}
-      </div>
+      {
+        user == null 
+        ? <div className={`${navbarLinkParentClasses} mr-10`}>
+            <NavbarLink href="/runner/login">Login</NavbarLink>
+            <NavbarLink href="/runner/register">Register</NavbarLink>
+          </div>
+        : <div className={`${navbarLinkParentClasses} mr-10`}>
+            <LogoutButton />
+          </div>
+      }
     </div>
   );
 }

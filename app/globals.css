@@ -10,14 +10,25 @@
   --color1: #171717;
   --color3: #000000;
   --color4: rgb(143, 143, 143);
+  --base_colour: rgb(61, 61, 61);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color1: #a454ff;
     --color2: #4d008b;
     --color3: #c700f950;
     --color4: rgb(93, 0, 136);
+  }
+} */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --base_colour: rgb(0, 115, 153);
+    --color1: color-mix(in srgb, var(--base_colour) 100%, white 100%);
+    --color2: color-mix(in srgb, var(--base_colour) 100%, white 66%);
+    --color3: color-mix(in srgb, var(--base_colour) 100%, white 33%);
+    --color4: color-mix(in srgb, var(--base_colour) 100%, white 0%);
   }
 }
 
