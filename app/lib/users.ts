@@ -5,6 +5,7 @@ import { sql } from './base';
 import { ValidateLoggedInUser } from './admin';
 import AvatarComponents, { AvatarComponentsId } from '@/schemas/public/AvatarComponents';
 import { AvatarMappings } from '../context/UserContext';
+import bcrypt from 'bcrypt';
 
 export async function getUserByEmail(email: string): Promise<User | undefined> {
     try {
@@ -62,4 +63,21 @@ export async function saveAvatar({ eyesId, mouthId, color} : {
            avatar_eyes = ${eyesId},
            avatar_mouth = ${mouthId}
      WHERE id=${user.id};`;
+}
+
+export async function register(
+  prevState: string | undefined,
+  formData: FormData
+) {
+    const password = formData.get("password")?.toString() ?? ""; 
+    const name = formData.get("username")?.toString() ?? ""; 
+    const email = formData.get("email")?.toString() ?? ""; 
+    const passwordHash = await bcrypt.hash(formData.get("password")?.toString() ?? "", 10);
+  try {
+    await sql`INSERT INTO users (email, name, password) VALUES
+                    (${email}, ${name}, ${passwordHash})`;
+  } catch (error) {
+    console.log(error);
+    return "There was an error.";
+  }
 }

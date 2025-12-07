@@ -1,9 +1,9 @@
 'use client';
  
-import { register } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
+import { register } from '../lib/users';
  
-export default async function RegistrationForm() {
+export default function RegistrationForm() {
   const [errorMessage, formAction] = useFormState(register, undefined);
 
   return (
@@ -13,6 +13,24 @@ export default async function RegistrationForm() {
           Register
         </h1>
         <div className="w-full">
+          <div>
+            <label
+              className=""
+              htmlFor="username"
+            >
+              Username
+            </label>
+            <div className="=">
+              <input
+                className="="
+                id="username"
+                type="string"
+                name="username"
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+          </div>
           <div>
             <label
               className=""

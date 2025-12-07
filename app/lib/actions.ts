@@ -24,15 +24,3 @@ export async function authenticate(
     throw error;
   }
 }
-
-export async function register(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  console.log(formData);
-  try {
-
-  } catch (error) {
-    return "There was an error.";
-  }
-}

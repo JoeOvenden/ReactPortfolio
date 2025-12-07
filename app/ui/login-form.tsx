@@ -1,37 +1,14 @@
 'use client';
  
 import { authenticate } from '@/app/lib/actions';
-import { signIn, useSession } from 'next-auth/react';
-import { redirect, usePathname, useSearchParams } from 'next/navigation';
-import { format } from 'path';
+import { useSearchParams } from 'next/navigation';
 import { useFormState } from 'react-dom';
  
 export default function LoginForm() {
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result?.error) {
-      console.log("Login failed:", result.error);
-    } else {
-      console.log("Logged in successfully!");
-    }
-  }
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/runner';
   const [errorMessage, formAction] = useFormState(authenticate, undefined);
-  const urlPath = usePathname();
-  const { data: session, status } = useSession();
-
+  
   return (
     <form action={formAction} className="flex">
       <div className="">
