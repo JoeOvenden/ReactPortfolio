@@ -6,11 +6,11 @@
 
 
 :root {
-  --color2: #ffffff;
-  --color1: #171717;
-  --color3: #000000;
-  --color4: rgb(143, 143, 143);
-  --base_colour: rgb(61, 61, 61);
+    --base_colour: rgb(62, 0, 57);
+    --color1: color-mix(in srgb, var(--base_colour) 100%, white 100%);
+    --color2: color-mix(in srgb, var(--base_colour) 100%, white 66%);
+    --color3: color-mix(in srgb, var(--base_colour) 100%, white 33%);
+    --color4: color-mix(in srgb, var(--base_colour) 100%, white 0%);
 }
 
 /* @media (prefers-color-scheme: dark) {

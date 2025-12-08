@@ -34,11 +34,23 @@ function FormField({ field, errors, register, placeholder, required, type } :
     type?: undefined | "string" | "password"
   }
 ) {
+  const errorMessage = errors[field]?.message ?? "";
+
   return (
-    <div className={`flex flex-col border-solid border-black border-1 rounded p-2`}>
-      <input {...register(field, { required: required ?? false })} placeholder={placeholder ?? toTitleCase(field)} type={type ?? "string"} />
-      <p className='min-h-6'>
-        {errors[field]?.message ?? ""}
+    <div className={`
+      ${errorMessage == "" ? "" : "border-red-600"}
+      flex flex-col border-solid border-black border-1 rounded p-2`}>
+      <input 
+        {...register(field, { required: required ?? false })}
+        placeholder={placeholder ?? toTitleCase(field)} 
+        type={type ?? "string"} 
+        className='rounded'
+      />
+      <p className={`${errorMessage == "" 
+        ? "max-h-0 scale-0" 
+        : "max-h-[100px] scale-100"} 
+          overflow-y-hidden [transition:max-height_2s,scale_500ms] ease-in-out`}>
+        {errorMessage}
       </p>
     </div>
   )
