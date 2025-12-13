@@ -4,6 +4,8 @@ import { authConfig } from './app/auth/config';
 import { z } from 'zod';
 import { User } from './app/lib/definitions/User';
 import { sql } from './app/lib/base';
+import { verifyPassword } from './app/lib/cryptography';
+import { parsePasswordData } from './app/lib/users';
 
 async function getUser(email: string): Promise<User | undefined> {
   try {
@@ -33,8 +35,10 @@ export const { auth, signIn, signOut, handlers: { GET, POST } } = NextAuth({
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);
           if (!user) return null;
-          const passwordsMatch = await bcrypt.compare(password, user.password);
 
+          const parsedPasswordData = await parsePasswordData(user.password);
+          const passwordsMatch = verifyPassword(parsedPasswordData.salt, password, parsedPasswordData.hash, parsedPasswordData.rounds, parsedPasswordData.hashingFunction);
+                    
           if (passwordsMatch) return user;
         }
  

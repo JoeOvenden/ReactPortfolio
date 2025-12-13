@@ -1,34 +1,16 @@
 'use client';
  
-import { useState } from 'react';
-import { FieldErrors, FormStateSubscribe, SubmitErrorHandler, SubmitHandler, useForm, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, SubmitErrorHandler, SubmitHandler, useForm, UseFormRegister } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import z from 'zod';
 import { toTitleCase } from '@/app/lib/utility'
-
-type Inputs = {
-  username: string,
-  email: string,
-  password: string,
-  confirm: string
-};
-
-const schema = z.object({
-  username: z.string().min(1, { message: "Required"}).max(15, { message: "Username can be at most 15 characters"}),
-  email: z.email(),
-  password: z.string().min(4, { message: "Password must be at least 4 characters long"}),
-  confirm: z.string()
-})
-.refine((data) => data.password === data.confirm, {
-  message: "Passwords don't match",
-  path: ["confirm"]
-});
+import { registerUser } from '../lib/users';
+import { RegisterUserInputs, registerUserSchema } from '../lib/definitions/User';
 
 function FormField({ field, errors, register, placeholder, required, type } :
   {
-    field: keyof Inputs,
-    errors: FieldErrors<Inputs>,
-    register: UseFormRegister<Inputs>,
+    field: keyof RegisterUserInputs,
+    errors: FieldErrors<RegisterUserInputs>,
+    register: UseFormRegister<RegisterUserInputs>,
     placeholder?: string,
     required?: boolean,
     type?: undefined | "string" | "password"
@@ -59,15 +41,13 @@ function FormField({ field, errors, register, placeholder, required, type } :
 export default function RegistrationForm({ className } : {
   className?: string
 }) {
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
-    resolver: zodResolver(schema)
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterUserInputs>({
+    resolver: zodResolver(registerUserSchema)
   });
-  const [data, setData] = useState("");
-  const onSubmit : SubmitHandler<Inputs> = (data) => {
-    setData(JSON.stringify(data));
-    console.log(data);
+  const onSubmit : SubmitHandler<RegisterUserInputs> = (data) => {
+    registerUser(data);
   }
-  const onInvalid : SubmitErrorHandler<Inputs> = (errors) => {
+  const onInvalid : SubmitErrorHandler<RegisterUserInputs> = (errors) => {
     console.log(errors);
   }
   return (
@@ -79,7 +59,6 @@ export default function RegistrationForm({ className } : {
         <FormField errors={errors} register={register} required={true} field='email'/>
         <FormField errors={errors} register={register} required={true} field='password' type='password'/>
         <FormField errors={errors} register={register} required={true} field='confirm' type='password'/>
-      <p>{data}</p>
       <input type="submit" />
     </form>
   );

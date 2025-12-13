@@ -1,7 +1,5 @@
-import { AvatarComponentsId } from "@/schemas/public/AvatarComponents";
 import Users from "@/schemas/public/Users";
-import { keyof } from "zod";
-import { TypeOf } from "zod/v3";
+import { z } from "zod";
 
 export interface User extends Users {};
 
@@ -12,3 +10,23 @@ export const UserBasicFields = [
     'avatar_mouth'
 ] as const satisfies readonly (keyof User)[];
 export type UserBasicDTO = Pick<User, typeof UserBasicFields[number]>
+
+export const registerUserSchema = z.object({
+  username: z.string().min(1, { message: "Required"}).max(15, { message: "Username can be at most 15 characters"}),
+  email: z.email(),
+  password: z.string().min(4, { message: "Password must be at least 4 characters long"}),
+  confirm: z.string()
+})
+.refine((data) => data.password === data.confirm, {
+  message: "Passwords don't match",
+  path: ["confirm"]
+});
+
+export type RegisterUserInputs = z.infer<typeof registerUserSchema>;
+
+export type PasswordData = {
+    hash: string,
+    salt: string,
+    rounds: number, 
+    hashingFunction: 'sha256'
+};

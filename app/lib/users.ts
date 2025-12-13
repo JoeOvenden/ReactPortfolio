@@ -1,11 +1,11 @@
 'use server';
 
-import { User, UserBasicDTO, UserBasicFields } from './definitions/User';
+import { PasswordData, RegisterUserInputs, registerUserSchema, User, UserBasicDTO, UserBasicFields } from './definitions/User';
 import { sql } from './base';
 import { ValidateLoggedInUser } from './admin';
 import AvatarComponents, { AvatarComponentsId } from '@/schemas/public/AvatarComponents';
 import { AvatarMappings } from '../context/UserContext';
-import bcrypt from 'bcrypt';
+import { hashPassword } from './cryptography';
 
 
 export async function getUserByEmail(email: string): Promise<User | undefined> {
@@ -66,20 +66,39 @@ export async function saveAvatar({ eyesId, mouthId, color} : {
      WHERE id=${user.id};`;
 }
 
-export async function register(
-  prevState: string | undefined,
-  formData: FormData
-) {
-    const password = formData.get("password")?.toString() ?? ""; 
-    const name = formData.get("username")?.toString() ?? ""; 
-    const email = formData.get("email")?.toString() ?? ""; 
+export async function parsePasswordData(passwordData: string) {
+    const parts = passwordData.split("$");
+    const parsedData : PasswordData = {
+        salt: parts[0],
+        hash: parts[1],
+        rounds: parseInt(parts[2]),
+        hashingFunction: 'sha256'
+    };
+    return parsedData;
+}
 
-    const passwordHash = await bcrypt.hash(formData.get("password")?.toString() ?? "", 10);
-  try {
-    await sql`INSERT INTO users (email, name, password) VALUES
-                    (${email}, ${name}, ${passwordHash})`;
-  } catch (error) {
-    console.log(error);
-    return "There was an error.";
-  }
+export async function createPasswordSaveData(password: string) {
+    const userSalt = crypto.randomUUID();
+    const rounds = 10000;
+    const hashingFunction = 'sha256';
+    const passwordHash = hashPassword(userSalt, password, rounds, hashingFunction);
+    return `${userSalt}$${passwordHash}$${rounds}$${hashingFunction}`;
+}
+
+export async function registerUser(
+  inputs: RegisterUserInputs
+) {
+    try {
+        registerUserSchema.parse(inputs);
+        const passwordToSave = await createPasswordSaveData(inputs.password);
+        await sql`INSERT INTO users (email, name, password) VALUES
+                        (${inputs.email}, ${inputs.username}, ${passwordToSave})`;
+    } catch (error) {
+        console.log(error);
+        return "There was an error.";
+    }
+}
+
+export async function seedUsers(count : number) {
+    // drizzle?
 }
