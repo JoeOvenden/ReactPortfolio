@@ -7,6 +7,7 @@ import AvatarComponents, { AvatarComponentsId } from '@/schemas/public/AvatarCom
 import { AvatarMappings } from '../context/UserContext';
 import bcrypt from 'bcrypt';
 
+
 export async function getUserByEmail(email: string): Promise<User | undefined> {
     try {
         const users = await sql<User[]>`SELECT * FROM users WHERE email=${email};`;
@@ -72,6 +73,7 @@ export async function register(
     const password = formData.get("password")?.toString() ?? ""; 
     const name = formData.get("username")?.toString() ?? ""; 
     const email = formData.get("email")?.toString() ?? ""; 
+
     const passwordHash = await bcrypt.hash(formData.get("password")?.toString() ?? "", 10);
   try {
     await sql`INSERT INTO users (email, name, password) VALUES

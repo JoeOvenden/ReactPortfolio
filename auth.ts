@@ -3,7 +3,6 @@ import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './app/auth/config';
 import { z } from 'zod';
 import { User } from './app/lib/definitions/User';
-import bcrypt from 'bcrypt';
 import { sql } from './app/lib/base';
 
 async function getUser(email: string): Promise<User | undefined> {
