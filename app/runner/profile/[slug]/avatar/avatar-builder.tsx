@@ -5,6 +5,7 @@ import { User } from "@/app/lib/definitions/User";
 import { saveAvatar } from "@/app/lib/users";
 import { Avatar } from "@/app/ui/avatar";
 import Button from "@/app/ui/button";
+import { clickableClasses } from "@/app/ui/global-styles";
 import AccessDenied from "@/app/ui/runner/access-denied";
 import Section from "@/app/ui/section";
 import AvatarComponentType from "@/schemas/public/AvatarComponentType";
@@ -24,7 +25,7 @@ export default function AvatarBuilder() {
     const mouths = components.filter(x => x.type === AvatarComponentType.mouth);
 
     const galleryClasses = "flex flex-wrap gap-8 overflow-y-scroll max-h-[70vh]";
-    const componentClasses = "cursor-pointer transition duration-300 hover:scale-90";
+    const componentClasses = `${clickableClasses}`;
     const [avatarEyes, setEyes] = useState(user.avatar_eyes);
     const [avatarMouth, setMouth] = useState(user.avatar_mouth);
     const [avatarColour, setColour] = useState(user.avatar_colour);

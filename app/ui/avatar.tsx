@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useAvatarMappings } from "../context/UserContext";
 import { AvatarComponentsId } from "@/schemas/public/AvatarComponents";
 import { User, UserBasicDTO } from "../lib/definitions/User";
+import { clickableClasses } from "./global-styles";
 
 const defaultIfEmpty = (value : string | undefined, defaultValue: string) => {
     return value == "" || value == undefined ? defaultValue : value;
@@ -23,13 +24,16 @@ export function UserCard({ user, link, size = "medium"} : {
     link?: string,
     size?: "small" | "medium" | "large"
 }) {
-    return <Avatar
+    return <div className="flex flex-col items-center gap-4">
+        <Avatar
                 eyesId={user.avatar_eyes}
                 mouthId={user.avatar_mouth}
                 colour={user.avatar_colour}
                 link={link}
                 size={size} 
             />
+        <h1 className="text-2xl">{user.name}</h1>
+    </div>
 }
 
 export function Avatar({ eyesId, mouthId, colour, link, size = "medium"} : {
@@ -50,7 +54,7 @@ export function Avatar({ eyesId, mouthId, colour, link, size = "medium"} : {
     const avatarMappings = useAvatarMappings();
 
     let dynamicClasses = "";
-    if (link) dynamicClasses += " hover:cursor-pointer";
+    if (link) dynamicClasses += clickableClasses;
         
     return (
         <a href={link}>

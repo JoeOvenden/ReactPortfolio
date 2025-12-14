@@ -98,7 +98,3 @@ export async function registerUser(
         return "There was an error.";
     }
 }
-
-export async function seedUsers(count : number) {
-    // drizzle?
-}

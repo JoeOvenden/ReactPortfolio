@@ -1,4 +1,5 @@
 import { CreateAvatarComponenets, GetLoggedInUser } from "@/app/lib/admin";
+import { seedUsers } from "@/app/lib/seed";
 import AccessDenied from "@/app/ui/runner/access-denied";
 import ServerActionButton from "@/app/ui/server-action-button";
 
@@ -12,8 +13,13 @@ export default async function Page() {
             <p>
                 WOAH SO ADMIN
             </p>
-            <div className="w-40">
-                <ServerActionButton action={async () => { "use server"; await CreateAvatarComponenets();}} className="bg-green-50 cursor-pointer">Create avatar componenets in DB</ServerActionButton>
+            <div className="w-40 flex gap-10">
+                <ServerActionButton action={async () => { "use server"; await CreateAvatarComponenets();}} >
+                    Create avatar componenets in DB
+                </ServerActionButton>
+                <ServerActionButton action={async () => { "use server"; await seedUsers();}}>
+                    Seed users
+                </ServerActionButton>
             </div>
         </div>
     )

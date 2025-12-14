@@ -29,7 +29,7 @@ export default function ServerActionButton({
     <button
       onClick={handleClick}
       disabled={isLoading}
-      className={`bg-green-800 text-white rounded px-4 py-2 font-medium transition-opacity ${
+      className={`bg-green-800 text-white rounded px-4 py-2 font-medium transition-opacity cursor-pointer ${
         isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-700'
       } ${className}`}
     >

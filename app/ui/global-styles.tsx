@@ -1,0 +1,1 @@
+export const clickableClasses = "hover:cursor-pointer transition duration-200 hover:scale-90";

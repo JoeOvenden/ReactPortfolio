@@ -11,6 +11,18 @@ export const UserBasicFields = [
 ] as const satisfies readonly (keyof User)[];
 export type UserBasicDTO = Pick<User, typeof UserBasicFields[number]>
 
+export const UserCreationFields = [
+  'name',
+  'email',
+  'avatar_colour',
+  'avatar_eyes',
+  'avatar_mouth',
+  'date_of_birth',
+  'password',
+  'phone_number'
+] as const satisfies readonly (keyof User)[];
+export type UserCreationDTO = Pick<User, typeof UserCreationFields[number]>
+
 export const registerUserSchema = z.object({
   username: z.string().min(1, { message: "Required"}).max(15, { message: "Username can be at most 15 characters"}),
   email: z.email(),
