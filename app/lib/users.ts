@@ -6,6 +6,7 @@ import { ValidateLoggedInUser } from './admin';
 import AvatarComponents, { AvatarComponentsId } from '@/schemas/public/AvatarComponents';
 import { AvatarMappings } from '../context/UserContext';
 import { hashPassword } from './cryptography';
+import z, { string } from 'zod';
 
 
 export async function getUserByEmail(email: string): Promise<User | undefined> {
@@ -28,10 +29,44 @@ export async function getUserByName(name: string): Promise<User | undefined> {
     }
 }
 
-export async function getUsers(): Promise<UserBasicDTO[]> {
+export type SearchUsersResponse = {
+    users: UserBasicDTO[],
+    userCount: number,
+    pages: number
+}
+
+const getUsersSchema = z.object({
+    searchString: z.string(),
+    page: z.coerce.number().int().gte(1)
+});
+type getUsersParameters = z.infer<typeof getUsersSchema>;
+
+export async function getUsers(getUsersParameters : getUsersParameters)
+: Promise<SearchUsersResponse> {
     try {        
-        const users = await sql<UserBasicDTO[]>`SELECT ${sql(UserBasicFields)} FROM users LIMIT 100;`;
-        return users;
+        const { searchString, page } = getUsersSchema.parse(getUsersParameters);
+        const whereClause = (s : string) => {
+            return s?.length > 0 
+                ? sql`WHERE NAME LIKE '%${s}%'` 
+                : sql``;
+        }
+        const countData = await sql<Number[]>`SELECT COUNT(*) FROM users ${whereClause(searchString)};`;
+        if (countData.length === 0) {
+            return {
+                userCount: 0,
+                users: [],
+                pages: 0
+            };
+        }
+        
+        const userCount = countData[0] as number;
+        const pageSize = 24;
+        const users = await sql<UserBasicDTO[]>`SELECT ${sql(UserBasicFields)} FROM users ${whereClause(searchString)} LIMIT ${pageSize};`;
+        return {
+            users: users,
+            userCount: userCount,
+            pages: Math.ceil(userCount / pageSize)
+        };
     } catch (error) {
         console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');

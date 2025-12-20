@@ -44,7 +44,7 @@ export default async function Nav({ user } : {
   const navbarLinkParentClasses = "flex flex-row gap-8";
 
   return (
-    <div className='relative flex flex-row items-center justify-between bg-accent p-4'>
+    <div className='relative flex flex-row items-center justify-between bg-accent p-4 w-[100%]'>
       <div className='flex flex-row items-center gap-4' id="left">
         <Link href="/runner">
           <Image

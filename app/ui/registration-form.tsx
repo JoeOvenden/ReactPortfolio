@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toTitleCase } from '@/app/lib/utility'
 import { registerUser } from '../lib/users';
 import { RegisterUserInputs, registerUserSchema } from '../lib/definitions/User';
+import { FormFieldProps, MyForm } from './forms';
 
 function FormField({ field, errors, register, placeholder, required, type } :
   {
@@ -37,7 +38,51 @@ function FormField({ field, errors, register, placeholder, required, type } :
     </div>
   )
 }
- 
+
+export  function RegistrationForm2({ className } : {
+  className?: string
+}) {
+      const fieldProps : FormFieldProps<RegisterUserInputs>[] = [
+          { 
+              field: "username",
+              placeholder: "Username",
+              required: true,
+              type: "string"
+          },
+          { 
+              field: "email",
+              placeholder: "Email",
+              required: true,
+              type: "string"
+          },
+          { 
+              field: "password",
+              placeholder: "Password",
+              required: true,
+              type: "password"
+          },
+          { 
+              field: "confirm",
+              placeholder: "Confirm",
+              required: true,
+              type: "password"
+          },
+      ];
+      const onSubmit : SubmitHandler<RegisterUserInputs> = (data) => {
+        registerUser(data);
+      }
+      const onInvalid : SubmitErrorHandler<RegisterUserInputs> = (data) => console.log("Invalid", data);
+      return (
+          <MyForm 
+              fieldProps={fieldProps}
+              onSubmit={onSubmit}
+              onInvalid={onInvalid}
+              schema={registerUserSchema}
+              className={className}
+          />
+      ) 
+}
+
 export default function RegistrationForm({ className } : {
   className?: string
 }) {
