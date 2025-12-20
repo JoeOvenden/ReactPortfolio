@@ -45,3 +45,13 @@ body {
   color: var(--color1);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+a {
+  transition: all;
+  transition-duration: 250ms;
+}
+
+a:hover {
+  color: black;
+  cursor: pointer;
+}

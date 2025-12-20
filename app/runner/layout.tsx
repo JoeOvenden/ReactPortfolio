@@ -16,7 +16,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <div className="flex flex-col">
           <Nav user={user} />
           <div className='m-12 bg-accent rounded p-4'>
-            <MainSection className='container max-h-full'>{children}</MainSection>
+            <MainSection className='flex max-h-full'>{children}</MainSection>
           </div>
         </div>
       </GlobalProvider>

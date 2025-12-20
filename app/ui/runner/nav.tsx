@@ -5,6 +5,7 @@ import { User } from '@/app/lib/definitions/User';
 import Icon from '@mdi/react';
 import { mdiPower } from '@mdi/js';
 import { signOut } from '@/auth';
+import { TextLink } from '../link';
 
 
 interface NavbarLinkProps extends LinkProps { 
@@ -12,7 +13,7 @@ interface NavbarLinkProps extends LinkProps {
   children: ReactNode;
 }
 
-const navbarItemClasses = "hover:text-black transition duration-150 font-semibold cursor-pointer";
+const navbarItemClasses = "font-semibold cursor-pointer";
 
 function NavbarItem({ className = "", children, onclick } : {
   className?: string,
@@ -20,17 +21,6 @@ function NavbarItem({ className = "", children, onclick } : {
   onclick: MouseEventHandler<HTMLDivElement>
 }) {
   return <div onClick={onclick} className={`${navbarItemClasses} cursor-pointer ${className}`}>{children}</div>
-}
-
-function NavbarLink({ className = "", children, ...props}: NavbarLinkProps) {
-  return (
-    <Link
-      {...props}
-      className={`${navbarItemClasses} ${className}`}
-    >
-      {children}
-    </Link>
-  )
 }
 
 function LogoutButton() {
@@ -42,7 +32,7 @@ function LogoutButton() {
       }}
       className={`${navbarItemClasses}`}
     >
-      <button className='cursor-pointer'><Icon path={mdiPower} className='w-10 h-10'></Icon></button>
+      <button className='cursor-pointer hover:text-black transition duration-300'><Icon path={mdiPower} className='w-10 h-10'></Icon></button>
     </form>
   )
 }
@@ -65,22 +55,22 @@ export default async function Nav({ user } : {
             alt="Man running logo"
           />
         </Link>
-        <NavbarLink href="/runner" className='text-xl'>Runner</NavbarLink>
+        <TextLink href="/runner" className='text-xl'>Runner</TextLink>
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <div className={`${navbarLinkParentClasses}`}>
-            {user == null ? "" : <NavbarLink href={`/runner/profile/${user?.name}`}>{user?.name}</NavbarLink>}
-            <NavbarLink href="/runner/create_event">Create event</NavbarLink>
-            <NavbarLink href="/runner/users">Users</NavbarLink>
-            <NavbarLink href="/runner/events">Events</NavbarLink>
-            {user?.is_admin ? <NavbarLink href="/runner/admin">Admin</NavbarLink> : ""}
+            {user == null ? "" : <TextLink href={`/runner/profile/${user?.name}`}>{user?.name}</TextLink>}
+            <TextLink href="/runner/create_event">Create event</TextLink>
+            <TextLink href="/runner/users">Users</TextLink>
+            <TextLink href="/runner/events">Events</TextLink>
+            {user?.is_admin ? <TextLink href="/runner/admin">Admin</TextLink> : ""}
         </div>
       </div>
       {
         user == null 
         ? <div className={`${navbarLinkParentClasses} mr-10`}>
-            <NavbarLink href="/runner/login">Login</NavbarLink>
-            <NavbarLink href="/runner/register">Register</NavbarLink>
+            <TextLink href="/runner/login">Login</TextLink>
+            <TextLink href="/runner/register">Register</TextLink>
           </div>
         : <div className={`${navbarLinkParentClasses} mr-10`}>
             <LogoutButton />

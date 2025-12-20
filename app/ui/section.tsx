@@ -8,7 +8,7 @@ export default function Section({ children, className, onClick, colorTheme = "bg
         colorTheme?: "bg-accent" | "bg-accent2"}) {
     return (
         <section 
-            className={`${colorTheme} rounded p-4 ${className ?? ""}`}
+            className={`flex ${colorTheme} rounded p-4 ${className ?? ""}`}
             onClick={onClick}>
             {children}
         </section>
