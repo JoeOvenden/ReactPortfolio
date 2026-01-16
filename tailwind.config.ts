@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       borderRadius: {
-        DEFAULT: '0.375rem',
+        "def": '1rem',
       },
       gridTemplateColumns: {
         '13': 'repeat(13, minmax(0, 1fr))',

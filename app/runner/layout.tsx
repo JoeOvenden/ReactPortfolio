@@ -16,7 +16,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <div className="flex flex-col items-center">
           <Nav user={user} />
           <div className='m-12 rounded p-4 w-[50vw]'>
-            <MainSection className='flex max-h-full col-span-4 col-start-4'>{children}</MainSection>
+            <MainSection className='flex items-center max-h-full col-span-4 col-start-4 justify-center'>{children}</MainSection>
           </div>
         </div>
       </GlobalProvider>

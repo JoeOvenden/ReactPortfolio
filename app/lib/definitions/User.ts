@@ -7,7 +7,8 @@ export const UserBasicFields = [
     'name', 
     'avatar_colour', 
     'avatar_eyes', 
-    'avatar_mouth'
+    'avatar_mouth',
+    'id'
 ] as const satisfies readonly (keyof User)[];
 export type UserBasicDTO = Pick<User, typeof UserBasicFields[number]>
 

@@ -15,7 +15,8 @@ export function SearchParametersBox ({ className } : {
     const fieldProps : FormFieldProps<FormInputType>[] = [
         { 
             field: "username",
-            placeholder: "Username"
+            placeholder: "Username",
+            key: 1
         }
     ];
     const onSubmit : SubmitHandler<FormInputType> = (data) => console.log("Legit", data);
@@ -27,6 +28,10 @@ export function SearchParametersBox ({ className } : {
             onInvalid={onInvalid}
             schema={schema}
             className={className}
+            buttonProps={{
+                label: "Go",
+                position: "right"
+            }}
         />
     )
 }

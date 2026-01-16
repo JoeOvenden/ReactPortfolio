@@ -1,5 +1,5 @@
 import { GetLoggedInUser } from "@/app/lib/admin";
-import RegistrationForm, { RegistrationForm2 } from "@/app/ui/registration-form";
+import { RegistrationForm } from "@/app/ui/registration-form";
 import Section from "@/app/ui/section";
 import { redirect, RedirectType } from "next/navigation";
 import { Suspense } from "react";
@@ -11,12 +11,10 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="grid grid-cols-3">
-      <Section className="col-start-2" colorTheme="bg-accent2">
-        <Suspense fallback={"Loading..."}>
-          <RegistrationForm2 />
-        </Suspense>
-      </Section>
-    </div>
+    <Section className="flex items-center">
+      <Suspense fallback={"Loading..."}>
+        <RegistrationForm className=""/>
+      </Suspense>
+    </Section>
   );
 }

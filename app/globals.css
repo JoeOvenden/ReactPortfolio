@@ -6,7 +6,7 @@
 
 
 :root {
-    --base_colour: rgb(62, 0, 57);
+    --base_colour: rgb(13, 75, 116);
     --color1: color-mix(in srgb, var(--base_colour) 100%, white 100%);
     --color2: color-mix(in srgb, var(--base_colour) 100%, white 66%);
     --color3: color-mix(in srgb, var(--base_colour) 100%, white 33%);
@@ -30,6 +30,14 @@
     --color3: color-mix(in srgb, var(--base_colour) 100%, white 33%);
     --color4: color-mix(in srgb, var(--base_colour) 100%, white 0%);
   }
+}
+
+.color1 {
+  background-color: var(--color1);
+}
+
+.color2 {
+  background-color: var(--color2);
 }
 
 .bg-accent {

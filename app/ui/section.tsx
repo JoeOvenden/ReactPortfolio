@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from "react";
 import Collapsible from "./collapsible";
 
-export default function Section({ children, className, onClick, colorTheme = "bg-accent" }: {
+export default function Section({ children, className, onClick, colorTheme = "bg-accent2" }: {
         children: React.ReactNode,  
         className?: string, 
         onClick?: MouseEventHandler<HTMLElement>,

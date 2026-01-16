@@ -48,6 +48,15 @@ export default function Home() {
           title="Physics"
           link="/physics"
         />
+        <Card 
+          imgAttributes={{
+            src: "/fishy-logo.png",
+            alt: "Fish logo"
+          }}
+          description="Fishy game"
+          title="Fishy"
+          link="/fishy"
+        />
       </section>
     </div>
   );
