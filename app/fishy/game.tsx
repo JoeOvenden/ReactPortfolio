@@ -251,7 +251,7 @@ class Fish {
     }
 }
 
-type State = 'PLAYING' | 'DEAD' | 'MENU';
+type State = 'PLAYING' | 'DEAD';
 type GameState = {
     player: Fish;
     fish: Fish[];
@@ -269,7 +269,7 @@ const STARTING_GAME_STATE: GameState = {
         isPlayer: true,
     }),
     fish: [],
-    state: 'MENU',
+    state: 'PLAYING',
 };
 
 class GameManager {
@@ -350,6 +350,10 @@ class GameManager {
         this.ctx.fillText(`Score: ${this.score}`, CANVAS_WIDTH - 200, 50);
     }
 
+    public gameOver() {
+        this.gameStateRef.current.state = 'DEAD';
+    }
+
     public checkCollisions() {
         const state = this.gameStateRef.current;
         for (let i = state.fish.length - 1; i >= 0; i--) {
@@ -360,7 +364,7 @@ class GameManager {
                 state.player.eat(fish);
                 state.fish.splice(i, 1);
             } else {
-                state.state = 'DEAD';
+                this.gameOver();
                 break;
             }
         }
@@ -433,6 +437,12 @@ class GameManager {
         this.ctx.font = '32px verdana';
         this.ctx.fillText(`Oh dear, you are DEAD!`, CANVAS_WIDTH / 2 - 200, CANVAS_HEIGHT / 2 - 25);
         this.ctx.fillText(`Final score: ${this.score}`, CANVAS_WIDTH / 2 - 200, CANVAS_HEIGHT / 2 + 25);
+
+        this.ctx.fillText(`Press enter to play again`, CANVAS_WIDTH / 2 - 200, CANVAS_HEIGHT / 2 + 200);
+
+        if (this.keysPressedRef.current.has('enter')) {
+            this.gameStateRef.current = this.startingGameState;
+        }
 
         this.continueAnimation();
     }
