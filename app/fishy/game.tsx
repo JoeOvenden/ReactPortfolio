@@ -2,6 +2,7 @@
 'use client';
 
 import { RefObject, useCallback, useEffect, useRef } from 'react';
+import GameManager from '../canvas_games/GameManager';
 
 const normal = require('@stdlib/random-base-normal');
 const rand = normal.factory(1, 0.5);
@@ -258,73 +259,31 @@ type GameState = {
     state: State;
 };
 
-const STARTING_GAME_STATE: GameState = {
-    player: new Fish({
-        x: CANVAS_WIDTH / 2,
-        y: CANVAS_HEIGHT / 2,
-        x_velocity: 0,
-        y_velocity: 0,
-        color: ORANGE,
-        size: 25,
-        isPlayer: true,
-    }),
-    fish: [],
-    state: 'PLAYING',
+const startingGameState = (): GameState => {
+    return {
+        player: new Fish({
+            x: CANVAS_WIDTH / 2,
+            y: CANVAS_HEIGHT / 2,
+            x_velocity: 0,
+            y_velocity: 0,
+            color: ORANGE,
+            size: 25,
+            isPlayer: true,
+        }),
+        fish: [],
+        state: 'PLAYING',
+    };
 };
 
-class GameManager {
-    private canvas: HTMLCanvasElement;
-    private ctx: CanvasRenderingContext2D;
-    private gameStateRef: RefObject<GameState>;
-    private animationRef: RefObject<number>;
-    private keysPressedRef: RefObject<Set<string>>;
-    private timeOfLastUpdate: Date;
-    private updateTimeIntervalMilliseconds: number;
+class FishyGameManager extends GameManager<GameState> {
     private static fishStartingSize: number = 25;
 
-    constructor(
-        gameStateRef: RefObject<GameState>,
-        canvasRef: RefObject<HTMLCanvasElement | null>,
-        animationRef: RefObject<number>,
-        keysPressedRef: RefObject<Set<string>>,
-    ) {
-        this.gameStateRef = gameStateRef;
-        this.animationRef = animationRef;
-        this.keysPressedRef = keysPressedRef;
-
-        const canvas = canvasRef.current;
-        if (!canvas) throw new Error('Canvas is null');
-        this.canvas = canvas;
-
-        const ctx = canvas.getContext('2d');
-        if (!ctx) throw new Error('Context is null');
-        this.ctx = ctx;
-
-        canvas.width = CANVAS_WIDTH;
-        canvas.height = CANVAS_HEIGHT;
-
-        this.timeOfLastUpdate = new Date();
-        this.updateTimeIntervalMilliseconds = 0;
-    }
-
-    get startingGameState(): GameState {
-        return {
-            player: new Fish({
-                x: CANVAS_WIDTH / 2,
-                y: CANVAS_HEIGHT / 2,
-                x_velocity: 0,
-                y_velocity: 0,
-                color: ORANGE,
-                size: GameManager.fishStartingSize,
-                isPlayer: true,
-            }),
-            fish: [],
-            state: 'PLAYING',
-        };
+    get startingGameState() {
+        return startingGameState();
     }
 
     get score() {
-        return Math.trunc((this.gameStateRef.current.player.size - GameManager.fishStartingSize) * 100);
+        return Math.trunc((this.gameStateRef.current.player.size - FishyGameManager.fishStartingSize) * 100);
     }
 
     public restart() {
@@ -460,7 +419,7 @@ class GameManager {
 
 export default function FishyGameCanvas() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const gameStateRef = useRef<GameState>(STARTING_GAME_STATE);
+    const gameStateRef = useRef<GameState>(startingGameState());
     const animationRef = useRef<number>(0);
     const keysPressedRef = useRef<Set<string>>(new Set());
 
@@ -473,7 +432,14 @@ export default function FishyGameCanvas() {
     }, []);
 
     useEffect(() => {
-        const manager = new GameManager(gameStateRef, canvasRef, animationRef, keysPressedRef);
+        const manager = new FishyGameManager(
+            gameStateRef,
+            canvasRef,
+            animationRef,
+            keysPressedRef,
+            CANVAS_WIDTH,
+            CANVAS_HEIGHT,
+        );
         if (manager == null) return;
 
         window.addEventListener('keydown', handleKeyDown);
